@@ -13,10 +13,17 @@ pipeline {
 		sh "helm lint ./exercise"
 
 		sh "helm package ./exercise"
-
-		sh "helm install mychart ./exercise"
             }
-
         }
+	stage('Test') {
+	    steps {
+	    	sh "helm upgrade mychart ./exercise --dry-run"
+	    }
+	}
+	stage('Deploy') {
+	    steps {
+	    	sh "helm upgrade mychart ./exercise"
+       	    }
+	}
     }
 }
